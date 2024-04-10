@@ -6,7 +6,7 @@
 
 > Commercial use of Docker Desktop in larger enterprises (more than 250 employees OR more than $10 million USD in annual revenue) requires a paid subscription.
 
-Темы, которые будут рассматриваться в курсе:
+Темы, которые рассматриваются в [курсе](https://www.youtube.com/watch?v=O8N1lvkIjig):
 
     1. Основы Docker
     2. Установка на Windows и Linux
