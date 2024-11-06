@@ -1,0 +1,27 @@
+@startuml
+
+state Running {
+state Attached
+state Detached 
+
+}
+
+state Stopped
+
+note bottom of Stopped
+Show all containers
+status, including stopped
+containers
+----
+docker ps -a
+end note 
+
+[*] -> Detached: docker run -d -it\n --name [Container Name]\n -v host_path:container_path\n [Image name]  /bin/bash
+Detached -> Attached: docker attach\n [Container Name]
+Attached -> Detached: [ctrl]+[p], [ctrl]+[q]
+Attached -> Stopped: exit
+Stopped -> Detached: docker start\n[Container Name]
+
+Stopped -> [*]: docker rm\n [Container Name]
+
+@enduml

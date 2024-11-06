@@ -449,9 +449,7 @@ service apache2 start
 
 Port mapping делать необязательно - до сайта можно достучаться просто зайдя на IP-адрес контейнера.
 
-
-
-
+См. **диаграмму состояний контейнера** в примере использования **host volumes**.
 
 ## Port mapping
 
@@ -609,6 +607,53 @@ docker stop [id/name] / docker start [id/name]
 ![Тест host volumes](./Pictures/DockerHVTest.png)
 
 Host volumes не являются истинными volumes и не отображаются при выполнении команды `docker volume ls`
+
+##### Еще один пример использования host volumes
+
+Создадим в корневом каталоге пользователя каталог `volume_test`
+и создадим там пустой файл `1.txt`
+
+```
+mkdir ~/volume_test
+cd ~/volume_test
+touch 1.txt
+```
+
+На основе образа **ubuntu** с Docker Hub'а создадим контейнер "host_volume_test",
+смонтируем каталог `volume_test` в его ФС по адресу `/volume_test`,
+запустим его в интерактивном `-i` фоновом режиме `-d` с выделением псевдотерминала `-t`
+
+```
+docker run -d -it --name host_volume_test -v /home/user1/volume_test:/volume_test ubuntu /bin/bash
+```
+
+Подключим stdin, stdout, stderr к контейнеру **host_volume_test** по его имени
+
+```
+docker attach host_volume_test
+```
+
+Убедимся в наличии каталога `volume_test` в корневом каталоге ФС контейнера
+
+```
+ls -lah
+```
+
+![Снимок экрана](Pictures/HostVolumeTest2.png)
+
+Чтобы контейнер остановился достаточно набрать в терминале `exit`. 
+Если нужно, чтобы он оставался запущенным, можно использовать [последовательность комбинаций](https://stackoverflow.com/questions/25267372/correct-way-to-detach-from-a-container-without-stopping-it) `[ctrl]+[p], [ctrl]+[q]`.
+
+Для повторного запуска остановленного контейнера нужно использовать команду
+
+```
+docker start host_volume_test
+```
+
+Диаграмма состояний контейнера:
+
+![Диаграмма состояний контейнера](Pictures/ContainerStates.png)
+
 
 #### Anonymous volumes
 
